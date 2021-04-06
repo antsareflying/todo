@@ -31,38 +31,40 @@ int main (void)
 	
 	switch (choice)
 	{
-		case 1:
-			printf("\033[2J");
+		case 1: //Lists TODOs
+			printf("\033[2J"); //clearscreen
 			viewlist();
 			break;
 			return 0;
 
-		case 2: 
-			printf("\033[2J");
+		case 2: //Inserts new TODOs
+			printf("\033[2J"); //clearscreen
 			viewlist();
 			insertrow();
 			break;
 			return 0;
 
-		case 3:
-			printf("\033[2J");
+		case 3: //Deletes TODOs
+			printf("\033[2J"); //clearscreen
 			viewlist();
 			deleterow();			
 			break;
-			return 1;
+			return 0;
 
-		case 4:
+		case 4: //Quits program
 			puts("Quitting...");
 			break;
-			return 1;
+			return 0;
 
 		default:
 			puts("Invalid choice, try again.");
+			return 1;
 	}
-	sqlite3_close(db);
+	sqlite3_close(db); //close databse connection
 	return 0;
 }
 
+//Initialises the database & table 
 int init(void)
 {
 	//Opens a database connection
@@ -84,6 +86,7 @@ int init(void)
 	return 0;
 }
 
+//Function for listing and printing the TODOs
 int viewlist(void)
 {
 	char *viewlist = "select rowid, * from todotable";
@@ -97,6 +100,7 @@ int viewlist(void)
 	return 0;
 }
 
+//Function for inserting TODOs
 int insertrow(void)
 {
 	char insertvalue[1024];
@@ -124,6 +128,7 @@ int insertrow(void)
 	return 0;
 }
 
+//Function for deleting TODOs
 int deleterow(void)
 {
 	char deletevalue[1024];
@@ -151,6 +156,7 @@ int deleterow(void)
 	return 0;
 }
 
+//Callback fcuntion for sqlite_exec()
 static int viewcallback(void *unused, int colcount, char **data, char **colname)
 {
 	for (int i = 0; i < colcount; i++)
